@@ -7,6 +7,7 @@ import app.entidades.Categoria;
 import app.main.ArvoreBMais;
 
 public class ArquivoCategoria extends Arquivo<Categoria> {
+
     Arquivo<Categoria> arqTarefa;
     ArvoreBMais<ParIDCategoria> arvore;
 
@@ -41,5 +42,41 @@ public class ArquivoCategoria extends Arquivo<Categoria> {
         }
 
         return (categorias);
+    }
+
+    public Categoria read(String nome) throws Exception {
+        ArrayList<ParIDCategoria> par = arvore.read(new ParIDCategoria(nome, -1));
+        return super.read(par.get(0).getIDCategoria());
+    }
+
+    public int create(Categoria obj) throws Exception {
+        int id = super.create(obj);
+        arvore.create(new ParIDCategoria(obj.getNome(), id));
+        return id;
+    }
+
+    public boolean delete(int nome) throws Exception {
+        boolean result = false;
+        Categoria obj = super.read(nome);
+        if (obj != null) {
+            if (arvore.delete(new ParIDCategoria(obj.getNome(), obj.getId()))) {
+                result = super.delete(obj.getId());
+            }
+        }
+        return result;
+    }
+
+    public boolean update(Categoria newCategoria) throws Exception {
+        boolean result = false;
+        Categoria oldCategoria = super.read(newCategoria.getId());
+        if (super.update(newCategoria)) {
+            if (newCategoria.getNome() != oldCategoria.getNome()) {
+                if (arvore.delete(new ParIDCategoria(oldCategoria.getNome(), oldCategoria.getId()))) {
+                    arvore.create(new ParIDCategoria(newCategoria.getNome(), newCategoria.getId()));
+                }
+                result = true;
+            }
+        }
+        return result;
     }
 }

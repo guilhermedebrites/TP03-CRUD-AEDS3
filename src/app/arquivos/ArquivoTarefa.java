@@ -17,7 +17,6 @@ public class ArquivoTarefa extends Arquivo<Tarefa> {
                 "Tarefas.db.bpt.idx");
     }
 
-    @Override
     public int create(Tarefa obj) throws Exception {
         int id = super.create(obj);
         try {
@@ -29,7 +28,6 @@ public class ArquivoTarefa extends Arquivo<Tarefa> {
         return id;
     }
 
-    @Override
     public Tarefa read(int idCategoria) throws Exception {
         ArrayList<ParIDTarefa> picit = arvore.read(new ParIDTarefa(idCategoria, -1));
         return super.read(picit.get(0).getIDTarefa());
@@ -85,27 +83,13 @@ public class ArquivoTarefa extends Arquivo<Tarefa> {
         return (tarefas);
     }
 
-    @Override
-    public boolean update(Tarefa novaTarefa) throws Exception {
+    public boolean update(Tarefa newTarefa) throws Exception {
         boolean result = false;
-        Tarefa tarefaAntiga = super.read(novaTarefa.getId());
-        if (super.update(novaTarefa)) {
-            if (novaTarefa.getId() != tarefaAntiga.getId()) {
-                arvore.delete(new ParIDTarefa(tarefaAntiga.getIdCategoria(), tarefaAntiga.getId()));
-                arvore.create(new ParIDTarefa(novaTarefa.getIdCategoria(), novaTarefa.getId()));
-            }
-            result = true;
-        }
-        return result;
-    }
-
-    public boolean update(Tarefa novaTarefa, int id) throws Exception {
-        boolean result = false;
-        Tarefa tarefaAntiga = super.read(novaTarefa.getId());
-        if (super.update(novaTarefa)) {
-            if (novaTarefa.getIdCategoria() != tarefaAntiga.getIdCategoria()) {
-                arvore.delete(new ParIDTarefa(tarefaAntiga.getIdCategoria(), tarefaAntiga.getId()));
-                arvore.create(new ParIDTarefa(novaTarefa.getIdCategoria(), novaTarefa.getId()));
+        Tarefa olfTarefa = super.read(newTarefa.getIdCategoria());
+        if (super.update(newTarefa)) {
+            if (newTarefa.getIdCategoria() != olfTarefa.getIdCategoria()) {
+                arvore.delete(new ParIDTarefa(olfTarefa.getIdCategoria(), olfTarefa.getId()));
+                arvore.create(new ParIDTarefa(newTarefa.getIdCategoria(), newTarefa.getId()));
             }
             result = true;
         }
