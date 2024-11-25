@@ -145,7 +145,10 @@ public class MenuTarefas extends Principal {
 
             if (categorias.isEmpty()) {
                 System.out.println("Não há categorias cadastradas!");
-            } else {
+            } else if(rotulos.isEmpty()) {
+                System.out.println("Não há rótulos cadastrados!");
+            }
+            else {
                 System.out.print("\nNome: ");
                 String nome = console.nextLine();
 
@@ -205,20 +208,44 @@ public class MenuTarefas extends Principal {
                     }
 
                     listarRotulos(rotulos);
-                    System.out.print("Rótulos (IDs separados por vírgula): ");
                     ArrayList<Integer> idsRotulos = new ArrayList<>();
-                    try {
-                        String[] ids = console.nextLine().split(",");
-                        for (String id : ids) {
-                            idsRotulos.add(Integer.parseInt(id));
-                        }
+                    boolean valid = false;
 
-                    } catch (NumberFormatException e) {
-                        System.out.println("Insira um número.");
+                    while (!valid) {
+                        System.out.print("Rótulos (IDs separados por vírgula): ");
+                        idsRotulos.clear();
+                        valid = true;
+
+                        try {
+                            String[] ids = console.nextLine().split(",");
+                            for (String id : ids) {
+                                int idRotulo = Integer.parseInt(id.trim());
+                                boolean exists = false;
+                                for (Rotulo rotulo : rotulos) {
+                                    if (rotulo.getId() == idRotulo) {
+                                        exists = true;
+                                        break;
+                                    }
+                                }
+                                if (!exists) {
+                                    System.out.println("Rótulo inválido: " + idRotulo);
+                                    valid = false;
+                                    break;
+                                } else {
+                                    idsRotulos.add(idRotulo);
+                                }
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Insira um número válido.");
+                            valid = false;
+                        }
                     }
 
-
-                    tarefa = new Tarefa(nome, dataCriacao, dataConclusao, status, prioridade, idCategoria, idsRotulos);
+                    if (valid) {
+                        tarefa = new Tarefa(nome, dataCriacao, dataConclusao, status, prioridade, idCategoria, idsRotulos);
+                    } else {
+                        System.out.println("Operação cancelada!");
+                    }
                 } else {
                     System.out.println("Operação cancelada!");
                 }
