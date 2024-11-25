@@ -3,7 +3,6 @@ package app.arquivos;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.entidades.Rotulo;
 import app.entidades.Tarefa;
 import app.main.ArvoreBMais;
 
@@ -150,60 +149,6 @@ public class ArquivoTarefa extends Arquivo<Tarefa> {
             ArrayList<Integer> idRotulos = tarefa.getIdRotulos();
             for(int i = 0; i < idRotulos.size(); i++){
                 arvore2.delete(new ParRotuloTarefa(idRotulos.get(i), tarefa.getId()));
-            }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        return result;
-    }
-
-    public boolean updateEtiquetas(Tarefa tarefa, ArrayList<Integer> removidos, ArrayList<Integer> adicionados){
-        boolean result = false;
-        try{
-            ArrayList<Integer> idRotulos = tarefa.getIdRotulos();
-
-            if(idRotulos.size() > 0){
-                for(int i = 0; i < removidos.size(); i++){
-                    boolean existe = false;
-                    for(int j = 0; j < idRotulos.size(); j++){
-                        if(removidos.get(i) == idRotulos.get(j)){
-                            existe = true;
-                        }
-                        else if(j == idRotulos.size() - 1 && !existe){
-                            System.out.println("Etiqueta não encontrada");
-                        }
-                    }
-                    if(existe){
-                        arvore2.delete(new ParRotuloTarefa(removidos.get(i), tarefa.getId()));
-                        idRotulos.remove(removidos.get(i));
-                    }
-                }
-            }
-            else if(removidos.size() > 0 && idRotulos.size() == 0){
-                System.out.println("Não há etiquetas para serem removidas");
-            }
-            for(int i = 0; i < adicionados.size(); i++){
-                boolean existe = false;
-                if(idRotulos.size() > 0){
-                    for(int j = 0; j < idRotulos.size(); j++){
-                        if(adicionados.get(i) == idRotulos.get(j)){
-                            System.out.println("Etiqueta já existente");
-                            existe = true;
-                        }
-                    }
-                }
-                if(!existe){
-                    idRotulos.add(adicionados.get(i));
-                    arvore2.create(new ParRotuloTarefa(adicionados.get(i), tarefa.getId()));
-                }
-            }
-            boolean update = super.update(tarefa);
-            tarefa.setIdRotulos(idRotulos);
-            if(update){
-                result = true;
-            }
-            else{
-                result = false;
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
