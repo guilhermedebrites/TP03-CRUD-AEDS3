@@ -47,6 +47,7 @@ public class MenuTarefas extends Principal {
         System.out.println("3 - Alterar              ");
         System.out.println("4 - Excluir              ");
         System.out.println("5 - Buscar por Categoria ");
+        System.out.println("6 - Buscar por Rótulo    ");
         System.out.println("0 - Voltar               ");
         System.out.print("Opção: ");
     }
@@ -69,6 +70,9 @@ public class MenuTarefas extends Principal {
                 break;
             case 5:
                 buscarTarefaPorCategoria();
+                break;
+            case 6:
+                buscarTarefaPorRotulo();
                 break;
             default:
                 System.out.println("Opção inválida!");
@@ -441,6 +445,43 @@ public class MenuTarefas extends Principal {
 
                 if (idCategoria > 0) {
                     List<Tarefa> tarefas = arqTarefas.readAll(idCategoria);
+
+                    if (tarefas.isEmpty()) {
+                        System.out.println("Não há tarefas cadastradas!");
+                    } else {
+                        System.out.println("\nLista de tarefas:");
+                        for (Tarefa tarefa : tarefas) {
+                            System.out.println(tarefa);
+                        }
+                        result = true;
+                    }
+                } else {
+                    System.out.println("ID inválido!");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi possível buscar tarefa!");
+        }
+
+        return result;
+    }
+
+    public static boolean buscarTarefaPorRotulo() {
+        boolean result = false;
+        System.out.println("\n> Buscar Tarefa por Rótulo:");
+
+        try {
+            List<Rotulo> rotulos = arqRotulos.readAll();
+
+            if (rotulos.isEmpty()) {
+                System.out.println("Não há rótulos cadastrados!");
+            } else {
+                listarRotulos(rotulos);
+                System.out.print("ID do Rótulo: ");
+                int idRotulo = Integer.parseInt(console.nextLine());
+
+                if (idRotulo > 0) {
+                    List<Tarefa> tarefas = arqTarefas.readRotulos(idRotulo);
 
                     if (tarefas.isEmpty()) {
                         System.out.println("Não há tarefas cadastradas!");

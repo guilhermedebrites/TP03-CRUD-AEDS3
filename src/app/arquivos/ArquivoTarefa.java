@@ -3,6 +3,7 @@ package app.arquivos;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.entidades.Rotulo;
 import app.entidades.Tarefa;
 import app.main.ArvoreBMais;
 
@@ -96,6 +97,32 @@ public class ArquivoTarefa extends Arquivo<Tarefa> {
                 t = new Tarefa();
                 t.fromByteArray(b);
                 if (t.getIdCategoria() == idCategoria) {
+                    tarefas.add(t);
+                }
+            }
+        }
+        return (tarefas);
+    }
+
+    public List<Tarefa> readRotulos(int idRotulo) throws Exception {
+        List<Tarefa> tarefas = new ArrayList<>();
+
+        file.seek(header);
+        byte lapide = ' ';
+        short tam = 0;
+        byte[] b = null;
+
+        Tarefa t = null;
+        while (file.getFilePointer() < file.length()) {
+            lapide = file.readByte();
+            tam = file.readShort();
+            b = new byte[tam];
+            file.read(b);
+
+            if (lapide != '*') {
+                t = new Tarefa();
+                t.fromByteArray(b);
+                if (t.getIdRotulos().contains(idRotulo)) {
                     tarefas.add(t);
                 }
             }
