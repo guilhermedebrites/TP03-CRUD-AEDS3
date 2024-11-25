@@ -3,21 +3,26 @@ package app;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import app.arquivos.ArquivoCategoria;
+import app.arquivos.ArquivoRotulo;
 import app.arquivos.ArquivoTarefa;
 import app.entidades.Categoria;
+import app.entidades.Rotulo;
 import app.entidades.Tarefa;
 import app.main.Principal;
 
 public class MenuTarefas extends Principal {
     private static ArquivoTarefa arqTarefas;
     private static ArquivoCategoria arqCategorias;
+    private static ArquivoRotulo arqRotulos;
 
     public MenuTarefas() throws Exception {
         arqTarefas = new ArquivoTarefa();
         arqCategorias = new ArquivoCategoria();
+        arqRotulos = new ArquivoRotulo();
     }
 
     public static void menu() {
@@ -122,10 +127,21 @@ public class MenuTarefas extends Principal {
         }
     }
 
+    private static void listarRotulos(List<Rotulo> lista) {
+        if (lista != null) {
+            System.out.println("\nLista de rótulos:");
+            int tam = lista.size();
+            for (int i = 0; i < tam; i++) {
+                System.out.println((i + 1) + ": " + lista.get(i).getRotulo());
+            }
+        }
+    }
+
     public static Tarefa lerTarefa() {
         Tarefa tarefa = null;
         try {
             List<Categoria> categorias = arqCategorias.readAll();
+            List<Rotulo> rotulos = arqRotulos.readAll();
 
             if (categorias.isEmpty()) {
                 System.out.println("Não há categorias cadastradas!");
@@ -188,7 +204,21 @@ public class MenuTarefas extends Principal {
                         }
                     }
 
-                    tarefa = new Tarefa(nome, dataCriacao, dataConclusao, status, prioridade, idCategoria);
+                    listarRotulos(rotulos);
+                    System.out.print("Rótulos (IDs separados por vírgula): ");
+                    ArrayList<Integer> idsRotulos = new ArrayList<>();
+                    try {
+                        String[] ids = console.nextLine().split(",");
+                        for (String id : ids) {
+                            idsRotulos.add(Integer.parseInt(id));
+                        }
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Insira um número.");
+                    }
+
+
+                    tarefa = new Tarefa(nome, dataCriacao, dataConclusao, status, prioridade, idCategoria, idsRotulos);
                 } else {
                     System.out.println("Operação cancelada!");
                 }

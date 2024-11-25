@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import app.MenuCategorias;
 import app.MenuTarefas;
+import app.MenuRotulos;
 
 public class Principal {
     protected static Scanner console = new Scanner(System.in);
@@ -17,6 +18,7 @@ public class Principal {
             System.out.println("> Início");
             System.out.println("1) Categorias");
             System.out.println("2) Tarefas");
+            System.out.println("3) Rótulos");
             System.out.println("0) Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
@@ -28,6 +30,9 @@ public class Principal {
                     break;
                 case 2:
                     (new MenuTarefas()).menu();
+                    break;
+                case 3:
+                    (new MenuRotulos()).menu();
                     break;
                 case 0:
                     System.out.println("Saindo...");
