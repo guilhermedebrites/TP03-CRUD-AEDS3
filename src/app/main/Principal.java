@@ -1,15 +1,18 @@
 package app.main;
 
+import java.util.List;
 import java.util.Scanner;
 
 import app.MenuCategorias;
 import app.MenuTarefas;
+import app.main.TarefaIndex;
 import app.MenuRotulos;
 
 public class Principal {
     protected static Scanner console = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
+
         Scanner scanner = new Scanner(System.in);
 
         while (true) {

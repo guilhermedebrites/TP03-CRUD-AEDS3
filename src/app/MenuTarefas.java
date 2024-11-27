@@ -13,6 +13,7 @@ import app.entidades.Categoria;
 import app.entidades.Rotulo;
 import app.entidades.Tarefa;
 import app.main.Principal;
+import app.main.TarefaIndex;
 
 public class MenuTarefas extends Principal {
     private static ArquivoTarefa arqTarefas;
@@ -39,7 +40,7 @@ public class MenuTarefas extends Principal {
     }
 
     protected static void opcoes_menu() {
-        System.out.println("\nPUCTAREFA 1.0           ");
+        System.out.println("\nPUCTAREFA 1.0          ");
         System.out.println("-------------------------");
         System.out.println("> Início > Tarefas       ");
         System.out.println("1 - Buscar               ");
@@ -48,6 +49,7 @@ public class MenuTarefas extends Principal {
         System.out.println("4 - Excluir              ");
         System.out.println("5 - Buscar por Categoria ");
         System.out.println("6 - Buscar por Rótulo    ");
+        System.out.println("7 - Buscar por Palavra   ");
         System.out.println("0 - Voltar               ");
         System.out.print("Opção: ");
     }
@@ -73,6 +75,9 @@ public class MenuTarefas extends Principal {
                 break;
             case 6:
                 buscarTarefaPorRotulo();
+                break;
+            case 7:
+                buscarTarefaPorPalavra();
                 break;
             default:
                 System.out.println("Opção inválida!");
@@ -495,6 +500,32 @@ public class MenuTarefas extends Principal {
                 } else {
                     System.out.println("ID inválido!");
                 }
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi possível buscar tarefa!");
+        }
+
+        return result;
+    }
+
+    public static boolean buscarTarefaPorPalavra() {
+        boolean result = false;
+        System.out.println("\n> Buscar Tarefa por Palavra:");
+
+        try {
+            TarefaIndex index = new TarefaIndex(10, "dicionario.db", "blocos.db");
+            List<Tarefa> tarefas = arqTarefas.readAll();
+            for(int i = 0; i < tarefas.size(); i++) {
+                index.inserirTarefa(tarefas.get(i).getId(), tarefas.get(i).getName());
+            }
+            if (index.isEmpty() == true) {
+                System.out.println("Não há tarefas cadastradas!");
+            } else {
+                System.out.print("Digite palavras: ");
+                String palavras = console.nextLine();
+                List<Integer> resultados = index.buscar(palavras);
+                System.out.println("Resultados da Busca: " + resultados);
+                                
             }
         } catch (Exception e) {
             System.out.println("Não foi possível buscar tarefa!");
