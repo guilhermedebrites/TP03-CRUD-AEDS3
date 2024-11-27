@@ -6,6 +6,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.IndiceInvertido.TarefaIndex;
 import app.arquivos.ArquivoCategoria;
 import app.arquivos.ArquivoRotulo;
 import app.arquivos.ArquivoTarefa;
@@ -13,7 +14,6 @@ import app.entidades.Categoria;
 import app.entidades.Rotulo;
 import app.entidades.Tarefa;
 import app.main.Principal;
-import app.main.TarefaIndex;
 
 public class MenuTarefas extends Principal {
     private static ArquivoTarefa arqTarefas;
@@ -524,8 +524,17 @@ public class MenuTarefas extends Principal {
                 System.out.print("Digite palavras: ");
                 String palavras = console.nextLine();
                 List<Integer> resultados = index.buscar(palavras);
-                System.out.println("Resultados da Busca: " + resultados);
-                                
+
+                System.out.println("\nLista de tarefas:");
+                int tam = tarefas.size();
+                for(int i = 0; i < resultados.size(); i++) {
+                    for (int j = 0; j < tam; j++) {
+                        if(resultados.get(i) == tarefas.get(j).getId())
+                        {
+                            System.out.println((j + 1) + ": " + tarefas.get(j).getName());
+                        }
+                    }
+                }                                                
             }
         } catch (Exception e) {
             System.out.println("Não foi possível buscar tarefa!");

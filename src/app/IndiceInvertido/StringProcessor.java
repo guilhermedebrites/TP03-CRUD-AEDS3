@@ -1,4 +1,4 @@
-package app.main;
+package app.IndiceInvertido;
 
 import java.text.Normalizer;
 import java.util.ArrayList;

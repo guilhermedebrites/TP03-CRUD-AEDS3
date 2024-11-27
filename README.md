@@ -1,4 +1,4 @@
-# **Relatório TP2**
+# **Relatório TP3**
 
 ### **Alunos:**
 - Guilherme Gomes de Brites  
@@ -8,44 +8,45 @@
 
 ---
 
-## **1. Classe ArquivoCategoria**
+## **1. Classe TarefaIndex**
 
-A classe `ArquivoCategoria` gerencia a leitura e escrita de categorias no arquivo **"Categorias.db"**. Ela utiliza uma **árvore B+** para otimizar a busca de registros, garantindo maior eficiência.  
+A classe `TarefaIndex` representa o núcleo de manipulação e gerenciamento de um índice invertido associado a tarefas. Seus métodos permitem adicionar, excluir e buscar tarefas, além de verificar o estado do índice.
 
 ### **Atributos**:
-- **arqTarefa**: Arquivo de tarefas.
-- **arvore**: Árvore B+ usada para indexação das categorias.
+- **listaInvertida**: Instância para gerenciar o índice invertido.
+- **totalTarefas**: Contador do número total de tarefas no índice.
+
 
 ### **Construtor**:
-- Inicializa o arquivo de categorias e a árvore B+ associada ao índice.
+- Inicializa a instância de ListaInvertida e atualiza o total de tarefas.
 
 ### **Métodos**:
-- **`readAll()`**: Lê todos os registros de categorias do arquivo, ignorando registros excluídos, e retorna uma lista de objetos `Categoria`.
+- **`inserirTarefa`**: Processa o texto da tarefa para obter os termos usando `StringProcessor`, Calcula o TF, Adiciona os termos e suas frequências ao índice invertido e Atualiza o contador de tarefas.
+- **`excluirTarefa`**: Processa o texto da tarefa para obter os termos, Remove cada termo associado ao ID no índice invertido e Atualiza o contador de tarefas.
+- **`buscar`**: Processa a consulta para obter os termos relevantes, Calcula o TF-IDF de cada termo para encontrar as tarefas mais relevantes, Retorna uma lista ordenada de IDs com base na relevância.
+- **`isEmpty`**: Verifica se o índice está vazio retornando true ou false.
 
 ---
 
-## **2. Classe ArquivoTarefa**
+## **2. class StringProcessor**
 
-A classe `ArquivoTarefa` gerencia a criação, leitura e atualização de tarefas no arquivo **"Tarefas.db"**. Assim como em `ArquivoCategoria`, também utiliza uma **árvore B+** para otimizar a busca de registros, neste caso, de tarefas relacionadas a categorias.
+A classe `StringProcessor` é utilitária para processar textos e extrair termos relevantes.
 
-### **Principais Métodos**:
-- **`create(Tarefa obj)`**: Cria uma nova tarefa e insere seu índice na árvore B+.
-- **`read(int idCategoria)`**: Lê uma tarefa relacionada a uma categoria específica.
-- **`readAll()`**: Retorna todas as tarefas do arquivo, ignorando excluídas.
-- **`readAll(int idCategoria)`**: Lê todas as tarefas de uma categoria específica.
-- **`update(Tarefa novaTarefa)`**: Atualiza uma tarefa, incluindo mudanças na árvore B+ se necessário.
+### **Método**:
+- **`processar`**: Converte o texto para letras minúsculas, Remove acentuações e caracteres não-ASCII, Divide o texto em palavras com base em delimitadores, Remove palavras irrelevantes (stop words).
+
+---
+
+## **3. -------**
 
 ---
 
 ## **CHECKLIST**
 
-- O CRUD (com índice direto) de categorias foi implementado? **SIM**
-- Há um índice indireto de nomes para as categorias? **SIM**
-- O atributo de ID de categoria, como chave estrangeira, foi criado na classe Tarefa? **SIM**
-- Há uma árvore B+ que registre o relacionamento 1:N entre tarefas e categorias? **SIM**
-- É possível listar as tarefas de uma categoria? **SIM**
-- A remoção de categorias checa se há alguma tarefa vinculada a ela? **SIM**
-- A inclusão da categoria em uma tarefa se limita às categorias existentes? **SIM**
-- O trabalho está funcionando corretamente? **SIM**
+- O índice invertido com os termos das tarefas foi criado usando a classe ListaInvertida? **SIM**
+- O CRUD de rótulos foi implementado? **SIM**
+- No arquivo de tarefas, os rótulos são incluídos, alterados e excluídos em uma árvore B+? **SIM**
+- É possível buscar tarefas por palavras usando o índice invertido? **SIM**
+- É possível buscar tarefas por rótulos usando uma árvore B+? **SIM**
 - O trabalho está completo? **SIM**
-- O trabalho é original e não a cópia de um trabalho de outro grupo? **SIM**
+- O trabalho é original e não a cópia de um trabalho de um colega? **SIM**

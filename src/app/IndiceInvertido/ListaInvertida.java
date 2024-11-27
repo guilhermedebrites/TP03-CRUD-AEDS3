@@ -12,7 +12,7 @@
  * Implementado pelo Prof. Marcos Kutova
  * v1.0 - 2020
  */
-package app.main;
+package app.IndiceInvertido;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,13 +20,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import app.entidades.ElementoLista;
 

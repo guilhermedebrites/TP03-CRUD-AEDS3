@@ -1,4 +1,4 @@
-package app.main;
+package app.IndiceInvertido;
 
 import java.util.HashMap;
 import java.util.List;

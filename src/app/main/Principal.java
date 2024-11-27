@@ -1,11 +1,9 @@
 package app.main;
 
-import java.util.List;
 import java.util.Scanner;
 
 import app.MenuCategorias;
 import app.MenuTarefas;
-import app.main.TarefaIndex;
 import app.MenuRotulos;
 
 public class Principal {
