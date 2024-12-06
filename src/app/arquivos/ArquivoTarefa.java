@@ -15,12 +15,12 @@ public class ArquivoTarefa extends Arquivo<Tarefa> {
         arvore = new ArvoreBMais<>(
                 ParIDTarefa.class.getConstructor(),
                 5,
-                "Tarefas.db.bpt.idx");
+                "dados\\Tarefas.db.bpt.idx");
 
         arvore2 = new ArvoreBMais<>(
             ParRotuloTarefa.class.getConstructor(),
             5,
-            "TarefasRotulos.db.bpt.idx");
+            "dados\\TarefasRotulos.db.bpt.idx");
     }
 
     public int create(Tarefa obj) throws Exception {

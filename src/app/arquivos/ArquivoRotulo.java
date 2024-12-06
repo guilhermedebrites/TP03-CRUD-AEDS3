@@ -14,7 +14,7 @@ public class ArquivoRotulo extends Arquivo<Rotulo> {
         arvoreRotulo = new ArvoreBMais<>(
                 ParRotuloTarefa.class.getConstructor(),
                 5,
-                "Rotulos.db.bpt.idx");
+                "dados\\Rotulos.db.bpt.idx");
     }
 
     public int create(Rotulo rotulo) throws Exception {

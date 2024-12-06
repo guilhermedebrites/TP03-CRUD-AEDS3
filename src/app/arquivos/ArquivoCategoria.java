@@ -8,15 +8,15 @@ import app.main.ArvoreBMais;
 
 public class ArquivoCategoria extends Arquivo<Categoria> {
 
-    Arquivo<Categoria> arqTarefa;
     ArvoreBMais<ParIDCategoria> arvore;
 
     public ArquivoCategoria() throws Exception {
         super("Categorias.db", Categoria.class.getConstructor());
         arvore = new ArvoreBMais<>(
-                ParIDCategoria.class.getConstructor(),
-                5,
-                "Categorias.db.bpt.idx");
+            ParIDCategoria.class.getConstructor(),
+            5,
+            "dados\\Categorias.db.bpt.idx"
+        );
     }
 
     public List<Categoria> readAll() throws Exception {

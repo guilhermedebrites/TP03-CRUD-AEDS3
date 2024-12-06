@@ -1,5 +1,6 @@
 package app.arquivos;
 
+import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 
@@ -8,24 +9,33 @@ import app.registros.Registro;
 
 public class Arquivo<T extends Registro> {
     final int header = 4;
+
     RandomAccessFile file;
-    String fileName = "";
+    String fileName;
     Constructor<T> constructor;
+
     HashExtensivel<ParIDEndereco> indiceDireto;
 
-    public Arquivo(String fn, Constructor<T> constructor) throws Exception {
-        this.fileName = fn;
+    public Arquivo(String na, Constructor<T> constructor) throws Exception {
+
+        File d = new File( ".\\dados" );
+        if (!d.exists()) {
+            d.mkdirs();
+        }
+
+        this.fileName = "dados\\" + na;
         this.constructor = constructor;
-        file = new RandomAccessFile(fileName, "rw");
+        file = new RandomAccessFile(this.fileName, "rw");
         if (file.length() < header) {
             file.seek(0);
             file.writeInt(0);
         }
         indiceDireto = new HashExtensivel<>(
-                ParIDEndereco.getConstructor(),
-                3,
-                fileName + ".hash_d.db",
-                fileName + ".hash_c.db");
+            ParIDEndereco.getConstructor(),
+            4,
+            this.fileName + ".hash_d.db",
+            this.fileName + ".hash_c.db"
+        );
     }
 
     public int create(T object) throws Exception {
